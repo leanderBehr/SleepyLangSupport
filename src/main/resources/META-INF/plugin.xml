@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>org.sleepy.SleepyLangSupport</id>
+    <name>SleepySupport</name>
+    <vendor email="leandersbehr@gmail.com" url="https://github.com/Zettelkasten/sleepy">Sleepy</vendor>
+
+    <description><![CDATA[
+        Provides language support for the sleepy language.
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Sleepy File" implementationClass="org.sleepy.language.SleepyFileType"
+                  fieldName="INSTANCE" language="Sleepy" extensions="slp"/>
+        <lang.syntaxHighlighterFactory language="Sleepy"
+                                       implementationClass="org.sleepy.language.SleepySyntaxHighlighterFactory"/>
+        <xdebugger.breakpointType implementation="org.sleepy.language.BreakpointType"/>
+
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
