@@ -4,14 +4,15 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.2"
+version = "0.3"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    implementation(fileTree("lib"))
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -22,9 +23,9 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Add highlighting for "mutates" and "ref".
+            Implement the lexer based on the sleepy compiler.
+            The compiler path must be specified in Settings |> Tools |> Sleepy Compiler.
             """.trimIndent()
         )
     }
 }
-sourceSets["main"].java.srcDirs("src/main/gen")

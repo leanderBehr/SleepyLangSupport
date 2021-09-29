@@ -18,6 +18,11 @@
                                        implementationClass="org.sleepy.language.SleepySyntaxHighlighterFactory"/>
         <xdebugger.breakpointType implementation="org.sleepy.language.BreakpointType"/>
 
+        <applicationService serviceImplementation="org.sleepy.settings.AppSettingsState"/>
+        <applicationConfigurable parentId="tools" instance="org.sleepy.settings.AppSettingsConfigurable"
+                                 id="org.intellij.sdk.settings.AppSettingsConfigurable"
+                                 displayName="Sleepy Path"/>
+
     </extensions>
 
     <actions>
