@@ -1,6 +1,5 @@
 package org.sleepy.language
 
-import com.intellij.history.core.Paths
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.extensions.PluginId
 import com.jetbrains.rd.util.printlnError
@@ -11,7 +10,9 @@ import jep.MainInterpreter
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import net.lingala.zip4j.ZipFile
 import org.sleepy.settings.AppSettingsState
+import java.nio.file.Files
 import java.util.concurrent.Executors
 
 object SleepyCompiler {
@@ -32,11 +33,16 @@ object SleepyCompiler {
 
 object SleepyCompilerInternal {
     private var interpreter: Interpreter? = null
+    private val jepTmpDir = Files.createTempDirectory("jepDir").toAbsolutePath()
+    private val pluginDirPath = PluginManagerCore.getPlugin(PluginId.getId("org.sleepy.SleepyLangSupport"))?.pluginPath
 
     fun init() {
         println("THREAD ID: ${Thread.currentThread().id}")
-        val path = PluginManagerCore.getPlugin(PluginId.getId("org.sleepy.SleepyLangSupport"))?.pluginPath
-        MainInterpreter.setJepLibraryPath(Paths.appended(path.toString(), "lib/jep.so"))
+
+        val jepZip = ZipFile("""$pluginDirPath/lib/jep.zip""")
+        jepZip.extractAll(jepTmpDir.toString())
+
+        MainInterpreter.setJepLibraryPath("$jepTmpDir/jep/libjep.so")
         setCompiler(AppSettingsState.getInstance().SleepyPath)
     }
 
@@ -66,16 +72,19 @@ object SleepyCompilerInternal {
         println("THREAD ID: ${Thread.currentThread().id}")
 
         if (interpreter != null) interpreter!!.close()
-        interpreter = try {
-            val config = JepConfig()
-            config.addIncludePaths(sleepyPath)
-            config.redirectStdout(System.out)
 
-            val newInterpreter = config.createSubInterpreter()
+        val config = JepConfig()
+        config.addIncludePaths(sleepyPath, """$jepTmpDir""")
+        config.redirectStdout(System.out)
+
+        val newInterpreter = config.createSubInterpreter()
+
+        interpreter = try {
             newInterpreter.runScript("$sleepyPath/sleepy/plugin_setup.py")
             newInterpreter
         } catch (e: JepException) {
             printlnError(e.message ?: "JEP ERROR WITHOUT MESSAGE")
+            newInterpreter.close()
             null
         }
     }

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.3"
+version = "0.4"
 
 repositories {
     mavenCentral()
@@ -13,6 +13,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
     implementation(fileTree("lib"))
+    implementation("net.lingala.zip4j:zip4j:2.9.0")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -23,8 +24,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Implement the lexer based on the sleepy compiler.
-            The compiler path must be specified in Settings |> Tools |> Sleepy Compiler.
+                Ship jep with the plugin
             """.trimIndent()
         )
     }
