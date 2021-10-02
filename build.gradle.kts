@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.4"
+version = "0.5"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-                Ship jep with the plugin
+            Performance improvements.
             """.trimIndent()
         )
     }
