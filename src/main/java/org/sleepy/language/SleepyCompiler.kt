@@ -3,10 +3,7 @@ package org.sleepy.language
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.extensions.PluginId
 import com.jetbrains.rd.util.printlnError
-import jep.Interpreter
-import jep.JepConfig
-import jep.JepException
-import jep.MainInterpreter
+import jep.*
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -37,18 +34,17 @@ object SleepyCompilerInternal {
     private val pluginDirPath = PluginManagerCore.getPlugin(PluginId.getId("org.sleepy.SleepyLangSupport"))?.pluginPath
 
     fun init() {
-        println("THREAD ID: ${Thread.currentThread().id}")
-
         val jepZip = ZipFile("""$pluginDirPath/lib/jep.zip""")
         jepZip.extractAll(jepTmpDir.toString())
 
         MainInterpreter.setJepLibraryPath("$jepTmpDir/jep/libjep.so")
+        val pyConfig = PyConfig()
+        pyConfig.setOptimizeFlag(2)
+        MainInterpreter.setInitParams(pyConfig)
         setCompiler(AppSettingsState.getInstance().SleepyPath)
     }
 
     fun tokenize(buffer: CharSequence): List<Token> {
-        println("THREAD ID: ${Thread.currentThread().id}")
-
         val currentInterpreter = if (interpreter != null) interpreter!! else return listOf()
         val result = currentInterpreter.invoke("tokenize", buffer.toString()) as List<*>
 
@@ -69,8 +65,6 @@ object SleepyCompilerInternal {
     }
 
     fun setCompiler(sleepyPath: String) {
-        println("THREAD ID: ${Thread.currentThread().id}")
-
         if (interpreter != null) interpreter!!.close()
 
         val config = JepConfig()
