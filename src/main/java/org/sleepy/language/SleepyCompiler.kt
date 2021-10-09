@@ -1,7 +1,9 @@
 package org.sleepy.language
 
 import com.intellij.ide.plugins.PluginManagerCore
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.extensions.PluginId
+import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.jetbrains.rd.util.printlnError
 import jep.*
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -71,14 +73,19 @@ object SleepyCompilerInternal {
         config.addIncludePaths(sleepyPath, """$jepTmpDir""")
         config.redirectStdout(System.out)
 
-        val newInterpreter = config.createSubInterpreter()
-
+        var newInterpreter: SubInterpreter? = null
         interpreter = try {
+            newInterpreter = config.createSubInterpreter()
             newInterpreter.runScript("$sleepyPath/sleepy/plugin_setup.py")
             newInterpreter
         } catch (e: JepException) {
-            printlnError(e.message ?: "JEP ERROR WITHOUT MESSAGE")
-            newInterpreter.close()
+            ApplicationManager.getApplication().invokeLater {
+                JBPopupFactory.getInstance()
+                    .createMessage("Cannot connect to Sleepy Compiler at $sleepyPath/sleepy/plugin_setup.py")
+                    .showInFocusCenter()
+                printlnError(e.message ?: "JEP ERROR WITHOUT MESSAGE")
+            }
+            newInterpreter?.close()
             null
         }
     }
