@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="cidr.debugger">
+        <lineBreakpointFileTypesProvider implementation="org.sleepy.language.LineBreakpointFileTypesProvider"/>
+    </extensions>
+</idea-plugin>

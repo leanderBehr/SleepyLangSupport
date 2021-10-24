@@ -10,19 +10,19 @@
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="SleepyLangSupport-withDebugging.xml">com.intellij.modules.cidr.debugger</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Sleepy File" implementationClass="org.sleepy.language.SleepyFileType"
                   fieldName="INSTANCE" language="Sleepy" extensions="slp"/>
         <lang.syntaxHighlighterFactory language="Sleepy"
                                        implementationClass="org.sleepy.language.SleepySyntaxHighlighterFactory"/>
-        <xdebugger.breakpointType implementation="org.sleepy.language.BreakpointType"/>
 
         <applicationService serviceImplementation="org.sleepy.settings.AppSettingsState"/>
         <applicationConfigurable parentId="tools" instance="org.sleepy.settings.AppSettingsConfigurable"
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="Sleepy Path"/>
-
+        <!-- <editorNotificationProvider implementation="org.sleepy.ui.NotificationProvider"/> -->
     </extensions>
 
     <actions>
