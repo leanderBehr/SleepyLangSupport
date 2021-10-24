@@ -10,7 +10,7 @@
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.cidr.debugger</depends>
+    <depends optional="true" config-file="SleepyLangSupport-withDebugging.xml">com.intellij.modules.cidr.debugger</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Sleepy File" implementationClass="org.sleepy.language.SleepyFileType"
@@ -23,11 +23,6 @@
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="Sleepy Path"/>
         <!-- <editorNotificationProvider implementation="org.sleepy.ui.NotificationProvider"/> -->
-
-    </extensions>
-
-    <extensions defaultExtensionNs="cidr.debugger">
-        <lineBreakpointFileTypesProvider implementation="org.sleepy.language.LineBreakpointFileTypesProvider"/>
     </extensions>
 
     <actions>

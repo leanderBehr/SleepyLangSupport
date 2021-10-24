@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.5"
+version = "0.6"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Performance improvements.
+            Add support for debugging with native debuggers in CLion.
             """.trimIndent()
         )
     }
