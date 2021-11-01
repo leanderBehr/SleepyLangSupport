@@ -40,10 +40,8 @@ object SleepyCompilerInternal {
         jepZip.extractAll(jepTmpDir.toString())
 
         MainInterpreter.setJepLibraryPath("$jepTmpDir/jep/libjep.so")
-        val pyConfig = PyConfig()
-        pyConfig.setOptimizeFlag(2)
-        MainInterpreter.setInitParams(pyConfig)
-        setCompiler(AppSettingsState.getInstance().SleepyPath)
+        MainInterpreter.setInitParams(PyConfig().setOptimizeFlag(2))
+        setCompiler(AppSettingsState.instance.sleepyPath, AppSettingsState.instance.pythonIncludePath)
     }
 
     fun tokenize(buffer: CharSequence): List<Token> {
@@ -66,11 +64,12 @@ object SleepyCompilerInternal {
         return tokens
     }
 
-    fun setCompiler(sleepyPath: String) {
+    fun setCompiler(sleepyPath: String, pythonHome: String?) {
         if (interpreter != null) interpreter!!.close()
 
         val config = JepConfig()
-        config.addIncludePaths(sleepyPath, """$jepTmpDir""")
+        config.addIncludePaths(sleepyPath, jepTmpDir.toString())
+        if(pythonHome != null) config.addIncludePaths(pythonHome)
         config.redirectStdout(System.out)
 
         var newInterpreter: SubInterpreter? = null

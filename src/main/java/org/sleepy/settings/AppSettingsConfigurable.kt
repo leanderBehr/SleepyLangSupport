@@ -17,29 +17,30 @@ class AppSettingsConfigurable : Configurable {
         return "Sleepy Path"
     }
 
-    override fun getPreferredFocusedComponent(): JComponent? {
-        return mySettingsComponent!!.preferredFocusedComponent
-    }
+    override fun getPreferredFocusedComponent(): JComponent = mySettingsComponent!!.preferredFocusedComponent
 
-    override fun createComponent(): JComponent? {
+    override fun createComponent(): JComponent {
         mySettingsComponent = AppSettingsComponent()
         return mySettingsComponent!!.panel
     }
 
     override fun isModified(): Boolean {
-        val settings = AppSettingsState.getInstance()
-        return mySettingsComponent!!.sleepyPath != settings.SleepyPath.toString()
+        val settings = AppSettingsState.instance
+        return mySettingsComponent!!.sleepyPath != settings.sleepyPath
+                || mySettingsComponent!!.pythonIncludePath != settings.pythonIncludePath
     }
 
     override fun apply() {
-        val settings = AppSettingsState.getInstance()
-        settings.SleepyPath = mySettingsComponent!!.sleepyPath
-        SleepyCompiler.get { setCompiler(settings.SleepyPath) }
+        val settings = AppSettingsState.instance
+        settings.sleepyPath = mySettingsComponent!!.sleepyPath
+        settings.pythonIncludePath = mySettingsComponent!!.pythonIncludePath
+        SleepyCompiler.get { setCompiler(settings.sleepyPath,settings.pythonIncludePath) }
     }
 
     override fun reset() {
-        val settings = AppSettingsState.getInstance()
-        mySettingsComponent!!.sleepyPath = settings.SleepyPath.toString()
+        val settings = AppSettingsState.instance
+        mySettingsComponent!!.sleepyPath = settings.sleepyPath
+        mySettingsComponent!!.pythonIncludePath = settings.pythonIncludePath
     }
 
     override fun disposeUIResources() {

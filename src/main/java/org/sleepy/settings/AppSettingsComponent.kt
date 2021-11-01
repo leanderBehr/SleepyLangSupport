@@ -1,41 +1,57 @@
-package org.sleepy.settings;
+package org.sleepy.settings
 
-import com.intellij.ui.components.JBLabel;
-import com.intellij.ui.components.JBTextField;
-import com.intellij.util.ui.FormBuilder;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
+import com.intellij.ui.components.JBCheckBox
+import com.intellij.util.ui.FormBuilder
+import javax.swing.JComponent
+import javax.swing.JPanel
 
 /**
- * Supports creating and managing a {@link JPanel} for the Settings Dialog.
+ * Supports creating and managing a [JPanel] for the Settings Dialog.
  */
-public class AppSettingsComponent {
+class AppSettingsComponent {
+    val panel: JPanel
+    private val sleepyPathField = TextFieldWithBrowseButton()
+    private val pythonIncludePathField = TextFieldWithBrowseButton()
+    private val specificPythonCheck = JBCheckBox("Use additional python include path", false)
 
-    private final JPanel mainPanel;
-    private final JBTextField sleepyPathField = new JBTextField();
+    val preferredFocusedComponent: JComponent = sleepyPathField
 
-    public AppSettingsComponent() {
-        mainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(new JBLabel("Specify the sleepy directory: "), sleepyPathField, 1, false)
-                .addComponentFillVertically(new JPanel(), 0)
-                .getPanel();
-    }
+    var sleepyPath: String by sleepyPathField::text
+    var pythonIncludePath: String?
+        get() = if (pythonIncludePathField.isEnabled) pythonIncludePathField.text else null
+        set(value) {
+            if (value != null) pythonIncludePathField.text = value
+            specificPythonCheck.isSelected = value != null
+        }
 
-    public JPanel getPanel() {
-        return mainPanel;
-    }
+    init {
+        panel = FormBuilder.createFormBuilder().run {
+            addLabeledComponent("Specify the sleepy directory: ", sleepyPathField, 1, false)
+            addComponent(specificPythonCheck)
+            addLabeledComponent("", pythonIncludePathField, 1, false)
+            addComponentFillVertically(JPanel(), 0)
+            panel
+        }
 
-    public JComponent getPreferredFocusedComponent() {
-        return sleepyPathField;
-    }
+        pythonIncludePathField.isEnabled = false
+        specificPythonCheck.addChangeListener {
+            pythonIncludePathField.isEnabled = specificPythonCheck.isSelected
+        }
 
-    @NotNull
-    public String getSleepyPath() {
-        return sleepyPathField.getText();
-    }
+        sleepyPathField.addBrowseFolderListener(
+            "Sleepy Compiler",
+            "Select the Sleepy compiler folder",
+            null,
+            FileChooserDescriptorFactory.createSingleFolderDescriptor()
+        )
+        pythonIncludePathField.addBrowseFolderListener(
+            "Python Include Path",
+            "Select a folder with sleepy's dependencies",
+            null,
+            FileChooserDescriptorFactory.createSingleFolderDescriptor()
+        )
 
-    public void setSleepyPath(@NotNull String newText) {
-        sleepyPathField.setText(newText);
     }
 }
