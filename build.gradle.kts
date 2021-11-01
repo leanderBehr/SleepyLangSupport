@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.5"
+version = "0.6"
 
 repositories {
     mavenCentral()
@@ -19,12 +19,14 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2021.2")
+    type.set("CL")
+    plugins.set(listOf("com.intellij.clion"))
 }
 tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Performance improvements.
+            Add support for debugging with native debuggers in CLion.
             """.trimIndent()
         )
     }
