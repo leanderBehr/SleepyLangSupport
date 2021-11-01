@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.7"
+version = "0.8"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Allow for an additional python include path.
+            Improved error and success messages.
             """.trimIndent()
         )
     }

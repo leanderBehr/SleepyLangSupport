@@ -1,16 +1,16 @@
 package org.sleepy.language
 
 import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.openapi.application.ApplicationManager
+import com.intellij.notification.NotificationAction
 import com.intellij.openapi.extensions.PluginId
-import com.intellij.openapi.ui.popup.JBPopupFactory
-import com.jetbrains.rd.util.printlnError
+import com.intellij.openapi.options.ShowSettingsUtil
 import jep.*
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import net.lingala.zip4j.ZipFile
 import org.sleepy.settings.AppSettingsState
+import org.sleepy.ui.SleepyNotifier
 import java.nio.file.Files
 import java.util.concurrent.Executors
 
@@ -69,7 +69,7 @@ object SleepyCompilerInternal {
 
         val config = JepConfig()
         config.addIncludePaths(sleepyPath, jepTmpDir.toString())
-        if(pythonHome != null) config.addIncludePaths(pythonHome)
+        if (pythonHome != null) config.addIncludePaths(pythonHome)
         config.redirectStdout(System.out)
 
         var newInterpreter: SubInterpreter? = null
@@ -78,15 +78,15 @@ object SleepyCompilerInternal {
             newInterpreter.runScript("$sleepyPath/sleepy/plugin_setup.py")
             newInterpreter
         } catch (e: JepException) {
-            ApplicationManager.getApplication().invokeLater {
-                JBPopupFactory.getInstance()
-                    .createMessage("Cannot connect to Sleepy Compiler at $sleepyPath/sleepy/plugin_setup.py")
-                    .showInFocusCenter()
-                printlnError(e.message ?: "JEP ERROR WITHOUT MESSAGE")
-            }
+            SleepyNotifier.notifyError(
+                "Cannot connect to Sleepy Compiler at $sleepyPath/sleepy/plugin_setup.py \n" + e.message,
+                NotificationAction.create("Edit Path") { _ ->
+                    ShowSettingsUtil.getInstance().editConfigurable(null, "Sleepy Path")
+                })
             newInterpreter?.close()
             null
         }
+        if(interpreter != null) SleepyNotifier.notifyInfo("Successfully started sleepy compiler")
     }
 }
 

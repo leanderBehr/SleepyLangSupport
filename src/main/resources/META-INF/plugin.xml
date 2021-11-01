@@ -22,6 +22,8 @@
         <applicationConfigurable parentId="tools" instance="org.sleepy.settings.AppSettingsConfigurable"
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="Sleepy Path"/>
+
+        <notificationGroup id="Sleepy Notifications" displayType="BALLOON"/>
         <!-- <editorNotificationProvider implementation="org.sleepy.ui.NotificationProvider"/> -->
     </extensions>
 
