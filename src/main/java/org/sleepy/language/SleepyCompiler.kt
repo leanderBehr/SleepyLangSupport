@@ -47,7 +47,7 @@ object SleepyCompilerInternal {
     }
 
     fun tokenize(buffer: CharSequence): List<Token> {
-        val currentInterpreter = if (interpreter != null) interpreter!! else return listOf()
+        val currentInterpreter = if (interpreter != null) interpreter!! else return listOf(Token(0, buffer.length, ""))
         val result = currentInterpreter.invoke("tokenize", buffer.toString()) as List<*>
 
         val tokenTypes = result[0] as List<*>
