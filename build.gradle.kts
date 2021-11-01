@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.6"
+version = "0.7"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Add support for debugging with native debuggers in CLion.
+            Allow for an additional python include path.
             """.trimIndent()
         )
     }
