@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.8"
+version = "0.9"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Improved error and success messages.
+            Implement parsing and show parser errors. Requires plugin_parser_support sleepy branch.
             """.trimIndent()
         )
     }
