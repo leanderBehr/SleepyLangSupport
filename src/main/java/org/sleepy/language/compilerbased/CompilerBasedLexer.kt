@@ -4,7 +4,7 @@ import com.intellij.lexer.Lexer
 import com.intellij.lexer.LexerPosition
 import com.intellij.psi.tree.IElementType
 import org.sleepy.language.SleepyCompiler
-import org.sleepy.language.SleepyTokens
+import org.sleepy.language.SleepyTokenType
 import org.sleepy.language.Token
 
 
@@ -34,7 +34,7 @@ class CompilerBasedLexer : Lexer() {
 
     override fun getTokenType(): IElementType? {
         return if (currentTokenIndex == currentTokens.size) null
-        else SleepyTokens.nameToType(currentToken.type)
+        else SleepyTokenType.nameToType(currentToken.type)
     }
 
     override fun getTokenStart() = currentToken.start + startOffset

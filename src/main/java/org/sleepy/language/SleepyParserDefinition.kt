@@ -22,11 +22,11 @@ class SleepyParserDefinition : ParserDefinition {
 
     override fun getFileNodeType(): IFileElementType = SleepyAstType.File
 
-    override fun getCommentTokens(): TokenSet = TokenSet.create(SleepyTokens.nameToType("COMMENT"))
+    override fun getCommentTokens(): TokenSet = TokenSet.create(SleepyTokenType.nameToType("COMMENT"))
 
-    override fun getStringLiteralElements(): TokenSet = TokenSet.create(SleepyTokens.nameToType("str"))
+    override fun getStringLiteralElements(): TokenSet = TokenSet.create(SleepyTokenType.nameToType("str"))
 
-    override fun getWhitespaceTokens(): TokenSet = TokenSet.create(SleepyTokens.nameToType("WHITESPACE"))
+    override fun getWhitespaceTokens(): TokenSet = TokenSet.create(SleepyTokenType.nameToType("WHITESPACE"))
 
     override fun createElement(node: ASTNode?): PsiElement = ASTWrapperPsiElement(node!!)
 

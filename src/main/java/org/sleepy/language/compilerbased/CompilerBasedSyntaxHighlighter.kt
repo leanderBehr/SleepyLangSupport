@@ -4,10 +4,10 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
-import org.sleepy.language.SleepyTokens
+import org.sleepy.language.SleepyTokenType
 
 class CompilerBasedSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = CompilerBasedLexer()
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> =
-        SleepyTokens.typeToHighlight(tokenType)
+        SleepyTokenType.typeToHighlight(tokenType)
 }

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.9"
+version = "0.10"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Implement parsing and show parser errors. Requires plugin_parser_support sleepy branch.
+            Add function declaration and struct member highlighting.
             """.trimIndent()
         )
     }

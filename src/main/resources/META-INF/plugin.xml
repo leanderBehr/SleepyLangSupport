@@ -26,6 +26,7 @@
                                  displayName="Sleepy Path"/>
 
         <notificationGroup id="Sleepy Notifications" displayType="BALLOON"/>
+        <annotator language="Sleepy" implementationClass="org.sleepy.language.Annotator"/>
         <!-- <editorNotificationProvider implementation="org.sleepy.ui.NotificationProvider"/> -->
     </extensions>
 
