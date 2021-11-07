@@ -17,6 +17,8 @@
                   fieldName="INSTANCE" language="Sleepy" extensions="slp"/>
         <lang.syntaxHighlighterFactory language="Sleepy"
                                        implementationClass="org.sleepy.language.SleepySyntaxHighlighterFactory"/>
+        <lang.parserDefinition language="Sleepy"
+                               implementationClass="org.sleepy.language.SleepyParserDefinition"/>
 
         <applicationService serviceImplementation="org.sleepy.settings.AppSettingsState"/>
         <applicationConfigurable parentId="tools" instance="org.sleepy.settings.AppSettingsConfigurable"

@@ -1,6 +1,7 @@
 package org.sleepy.language
 
 import com.intellij.ide.plugins.PluginManagerCore
+import com.intellij.lang.PsiBuilder
 import com.intellij.notification.NotificationAction
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.options.ShowSettingsUtil
@@ -44,8 +45,35 @@ object SleepyCompilerInternal {
         setCompiler(AppSettingsState.instance.sleepyPath, AppSettingsState.instance.pythonIncludePath)
     }
 
+    fun tokenNameToHighlightString(name: String): String {
+        val currentInterpreter = interpreter ?: return ""
+        return currentInterpreter.invoke("token_name_to_highlight", name) as String
+    }
+
+    fun parse(builder: PsiBuilder) {
+        val currentInterpreter = interpreter ?: return
+        builder.setDebugMode(true)
+        class Marker(val marker: PsiBuilder.Marker) {
+            fun drop() = marker.drop()
+            fun precede() = Marker(marker.precede())
+            fun done(name: String) {
+                if(name == "FILE") marker.done(SleepyAstType.File)
+                else marker.done(SleepyAstType.nameToType(name))
+            }
+            fun error(message: String) = marker.error(message)
+        }
+
+        class TokenStream {
+            fun mark() = Marker(builder.mark())
+            fun advance() = builder.advanceLexer()
+            fun current(): String = builder.tokenType.toString()
+        }
+
+        currentInterpreter.invoke("parse", TokenStream())
+    }
+
     fun tokenize(buffer: CharSequence): List<Token> {
-        val currentInterpreter = if (interpreter != null) interpreter!! else return listOf(Token(0, buffer.length, ""))
+        val currentInterpreter = interpreter ?: return listOf(Token(0, buffer.length, ""))
         val result = currentInterpreter.invoke("tokenize", buffer.toString()) as List<*>
 
         val tokenTypes = result[0] as List<*>
