@@ -5,7 +5,7 @@ A language support plugin for intellij based IDEs for the Sleepy language based 
 ### Features
 * Simple (lexer based) syntax highlighting.
 * (__CLion only__) Enables debugging executables with the built in gdb interface.
-* (__In Progress__) Semantic (parser based) syntax highlighting.
+* (__In Progress__ [on this branch](https://github.com/leanderBehr/SleepyLangSupport/tree/parsing)) Semantic (parser based) syntax highlighting.
 
 ## How to use
 1. Install from the latest archive in `distributions` or build yourself.
