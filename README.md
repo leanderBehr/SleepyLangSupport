@@ -1,3 +1,6 @@
+# Parsing Support
+This branch requires the [plugin_parser_support](https://github.com/zettelkasten/sleepy/tree/plugin_parser_support) branch of sleepy. Performance is a problem because our lexing and parsing setup is a little ludicrous.
+
 # SleepyLangSupport
 
 A language support plugin for intellij based IDEs for the Sleepy language based on its compiler. A prebuilt archives are available in this repository in `distributions`.
@@ -5,7 +8,7 @@ A language support plugin for intellij based IDEs for the Sleepy language based 
 ### Features
 * Simple (lexer based) syntax highlighting.
 * (__CLion only__) Enables debugging executables with the built in gdb interface.
-* (__In Progress__) Semantic (parser based) syntax highlighting.
+* Semantic (parser based) syntax highlighting and parser errors.
 
 ## How to use
 1. Install from the latest archive in `distributions` or build yourself.
