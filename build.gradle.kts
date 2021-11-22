@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.10"
+version = "0.11"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Add function declaration and struct member highlighting.
+            Added comment support.
             """.trimIndent()
         )
     }

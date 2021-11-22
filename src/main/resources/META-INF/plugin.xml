@@ -27,6 +27,7 @@
 
         <notificationGroup id="Sleepy Notifications" displayType="BALLOON"/>
         <annotator language="Sleepy" implementationClass="org.sleepy.language.Annotator"/>
+        <lang.commenter language="Sleepy" implementationClass="org.sleepy.language.SimpleCommenter"/>
         <!-- <editorNotificationProvider implementation="org.sleepy.ui.NotificationProvider"/> -->
     </extensions>
 
