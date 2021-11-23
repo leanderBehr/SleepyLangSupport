@@ -6,6 +6,9 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.psi.PsiElement
+import org.sleepy.language.ast.isFuncDeclIdentifier
+import org.sleepy.language.ast.isSleepyAstType
+import org.sleepy.language.ast.isStructMember
 
 class Annotator : Annotator {
 
@@ -16,5 +19,6 @@ class Annotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (isFuncDeclIdentifier(element)) highlight(element, holder, DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
         else if(isStructMember(element)) highlight(element, holder, DefaultLanguageHighlighterColors.INSTANCE_FIELD)
+        else if(isSleepyAstType(element.node.elementType, "Annotation")) highlight(element, holder, DefaultLanguageHighlighterColors.METADATA)
     }
 }
