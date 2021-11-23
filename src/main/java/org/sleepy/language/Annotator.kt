@@ -6,9 +6,6 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.psi.PsiElement
-import org.sleepy.language.ast.isFuncDeclIdentifier
-import org.sleepy.language.ast.isSleepyAstType
-import org.sleepy.language.ast.isStructMember
 
 class Annotator : Annotator {
 
