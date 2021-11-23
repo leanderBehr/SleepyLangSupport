@@ -2,7 +2,7 @@ package org.sleepy.language
 
 import com.intellij.lang.Commenter
 
-class SimpleCommenter : Commenter {
+class SleepyCommenter : Commenter {
     override fun getLineCommentPrefix() = "#"
 
     override fun getBlockCommentPrefix(): String? = null

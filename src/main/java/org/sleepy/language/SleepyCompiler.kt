@@ -67,6 +67,7 @@ object SleepyCompilerInternal {
             fun mark() = Marker(builder.mark())
             fun advance() = builder.advanceLexer()
             fun current(): String = builder.tokenType.toString()
+            fun makeCurrentWhitespace() = builder.remapCurrentToken(SleepyTokenType.nameToType("WHITESPACE"))
         }
 
         currentInterpreter.invoke("parse", TokenStream())
