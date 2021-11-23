@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.sleepy"
-version = "0.12"
+version = "0.12.1"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Added code folding.
+            Fix annotations.
             """.trimIndent()
         )
     }
